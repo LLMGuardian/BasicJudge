@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from flask import json
 
-from src.app import app
+from app import app
 
 
 class ProcessRequestTest(unittest.TestCase):

@@ -1,8 +1,8 @@
 import requests
 from flask import Flask, jsonify, request
 
-from src.postprocess import *
-from src.preprocess import *
+import postprocess
+import preprocess
 
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ def process_request():
             400,
         )
 
-    enriched_prompt = add_template(prompt=data["prompt"], chat=data["chat"])
+    enriched_prompt = preprocess.add_template(prompt=data["prompt"], chat=data["chat"])
     # TODO: model name not be fixated and must be fetched from the DB
     model_name = "llama3.1"
     outgoing_payload = {"model": model_name, "prompt": enriched_prompt, "stream": False}
@@ -41,9 +41,9 @@ def process_request():
     response_text = response_data.get("response", "")
     # TODO: Log other parameters in the response
     try:
-        result = process_response(result=response_text)
+        result = postprocess.process_response(result=response_text)
         return jsonify({"status": result}), 200
-    except NumberNotFoundException:
+    except postprocess.NumberNotFoundException:
         # TODO: Send the crude response back to the caller
         return (
             jsonify({"error": "Internal server error. No number in the range [0, 100] found in response"}),
