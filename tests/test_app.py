@@ -23,9 +23,7 @@ class ProcessRequestTest(unittest.TestCase):
             "chat": "The previous chat context.",
         }
 
-        response = self.app.post(
-            "/process", data=json.dumps(data), content_type="application/json"
-        )
+        response = self.app.post("/process", data=json.dumps(data), content_type="application/json")
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"status": True})
@@ -42,9 +40,7 @@ class ProcessRequestTest(unittest.TestCase):
             "chat": "The previous chat context.",
         }
 
-        response = self.app.post(
-            "/process", data=json.dumps(data), content_type="application/json"
-        )
+        response = self.app.post("/process", data=json.dumps(data), content_type="application/json")
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json, {"status": False})
@@ -61,16 +57,12 @@ class ProcessRequestTest(unittest.TestCase):
             "chat": "The previous chat context.",
         }
 
-        response = self.app.post(
-            "/process", data=json.dumps(data), content_type="application/json"
-        )
+        response = self.app.post("/process", data=json.dumps(data), content_type="application/json")
 
         self.assertEqual(response.status_code, 500)
         self.assertEqual(
             response.json,
-            {
-                "error": "Internal server error. Missing 'response' field in external API response"
-            },
+            {"error": "Internal server error. Missing 'response' field in external API response"},
         )
 
     @patch("requests.post")
@@ -85,16 +77,12 @@ class ProcessRequestTest(unittest.TestCase):
             "chat": "The previous chat context.",
         }
 
-        response = self.app.post(
-            "/process", data=json.dumps(data), content_type="application/json"
-        )
+        response = self.app.post("/process", data=json.dumps(data), content_type="application/json")
 
         self.assertEqual(response.status_code, 500)
         self.assertEqual(
             response.json,
-            {
-                "error": "Internal server error. No number in the range [0, 100] found in response"
-            },
+            {"error": "Internal server error. No number in the range [0, 100] found in response"},
         )
 
     @patch("requests.post")
@@ -109,29 +97,21 @@ class ProcessRequestTest(unittest.TestCase):
             "chat": "The previous chat context.",
         }
 
-        response = self.app.post(
-            "/process", data=json.dumps(data), content_type="application/json"
-        )
+        response = self.app.post("/process", data=json.dumps(data), content_type="application/json")
 
         self.assertEqual(response.status_code, 500)
         self.assertEqual(
             response.json,
-            {
-                "error": "Internal server error. No number in the range [0, 100] found in response"
-            },
+            {"error": "Internal server error. No number in the range [0, 100] found in response"},
         )
 
     def test_invalid_input(self):
         data = {"chat": "The previous chat context."}
 
-        response = self.app.post(
-            "/process", data=json.dumps(data), content_type="application/json"
-        )
+        response = self.app.post("/process", data=json.dumps(data), content_type="application/json")
 
         self.assertEqual(response.status_code, 400)
-        self.assertEqual(
-            response.json, {"error": "Invalid input, 'prompt' and 'chat' are required"}
-        )
+        self.assertEqual(response.json, {"error": "Invalid input, 'prompt' and 'chat' are required"})
 
 
 if __name__ == "__main__":
